@@ -4,6 +4,6 @@
 Pre-Alpha version of the Russian Conspiracy website, that contains all the information needed to change your mind about any related theme.
 </p>
 <hr>
-Currently it's only HTML, but in the near future it will be updated with CSS and Javascript.
+This website is gonna get better and better since I'm completing a full Full-Stack Web Developer online-course.
 <br>
 <strong>Stay tuned!</strong>
