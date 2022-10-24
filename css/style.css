@@ -1,0 +1,45 @@
+body {
+  background-color: black;
+  font-family: "Papyrus", "Verdana", "Arial";
+  color: #95A3B3;
+}
+
+hr {
+  border-style: solid none none;
+  border-color: #345830;
+  border-width: 3px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  width: 80%
+
+}
+
+p {
+  font-family: "Papyrus", "Verdana", "Arial";
+  text-align: center;
+  display: block;
+  margin: 10px 100px 10px 100px;
+}
+
+em {
+  font-family: "Verdana", "Papyrus", "Arial";
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+strong {
+  color: #EF3E36;
+}
+
+h1 {
+  text-align: center;
+}
+
+h3 {
+  text-align: center;
+}
+
+a {
+  display: block;
+  margin: 5px auto 5px auto;
+}
