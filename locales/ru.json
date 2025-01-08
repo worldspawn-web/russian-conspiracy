@@ -1,0 +1,22 @@
+{
+  "profile": {
+    "registered": "Регистрация",
+    "completedTopics": "Пройдено тем",
+    "rank": "Ранг"
+  },
+  "level": {
+    "level": "Уровень",
+    "difficulty": "Сложность",
+    "questionCount": "Количество вопросов",
+    "difficulties": {
+      "easy": "Легкая",
+      "medium": "Средняя",
+      "hard": "Сложная"
+    }
+  },
+  "common": {
+    "next": "Далее",
+    "back": "Назад",
+    "retry": "Попробовать снова"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "profile": {
+    "registered": "Registered",
+    "completedTopics": "Completed topics",
+    "rank": "Rank"
+  },
+  "level": {
+    "level": "Level",
+    "difficulty": "Difficulty",
+    "questionCount": "Number of questions",
+    "difficulties": {
+      "easy": "Easy",
+      "medium": "Medium",
+      "hard": "Hard"
+    }
+  },
+  "common": {
+    "next": "Next",
+    "back": "Back",
+    "retry": "Try Again"
+  }
+}
