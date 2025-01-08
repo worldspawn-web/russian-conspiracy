@@ -64,7 +64,7 @@
 .prose h4,
 .prose h5,
 .prose h6 {
-  @apply text-gray-300 font-bold;
+  @apply text-gray-200 font-bold;
 }
 
 .prose a {
@@ -72,7 +72,19 @@
 }
 
 .prose blockquote {
-  @apply border-l-4 border-green-500 pl-4 italic;
+  @apply relative pl-6 italic my-6;
+}
+
+.prose blockquote::before {
+  @apply content-[''] absolute left-0 top-0 bottom-0 w-1 bg-green-500;
+}
+
+.prose blockquote p {
+  @apply text-gray-300 text-lg mb-2;
+}
+
+.prose blockquote footer {
+  @apply text-green-500/70 text-sm not-italic;
 }
 
 .prose code {

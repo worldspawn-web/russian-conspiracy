@@ -30,6 +30,7 @@ export function ArticleContent() {
   }
 
   const renderContent = (content: string) => {
+    // First, handle code blocks
     const codeBlockRegex = /```(\w+)\n([\s\S]*?)```/g;
     const parts = [];
     let lastIndex = 0;
@@ -38,11 +39,8 @@ export function ArticleContent() {
     while ((match = codeBlockRegex.exec(content)) !== null) {
       // Add text before code block
       if (match.index > lastIndex) {
-        parts.push(
-          <div key={lastIndex} className="whitespace-pre-wrap">
-            {content.slice(lastIndex, match.index)}
-          </div>
-        );
+        const textBeforeCode = content.slice(lastIndex, match.index);
+        parts.push(renderTextWithQuotes(textBeforeCode, lastIndex));
       }
 
       // Add code block
@@ -54,14 +52,58 @@ export function ArticleContent() {
 
     // Add remaining text
     if (lastIndex < content.length) {
-      parts.push(
-        <div key={lastIndex} className="whitespace-pre-wrap">
-          {content.slice(lastIndex)}
+      const remainingText = content.slice(lastIndex);
+      parts.push(renderTextWithQuotes(remainingText, lastIndex));
+    }
+
+    return parts;
+  };
+
+  const renderTextWithQuotes = (text: string, baseKey: number) => {
+    // Handle blockquotes
+    const quoteRegex = />\s*"([^"]+)"\s*-\s*(.+)$/gm;
+    const quoteParts = [];
+    let lastQuoteIndex = 0;
+    let quoteMatch;
+
+    while ((quoteMatch = quoteRegex.exec(text)) !== null) {
+      // Add text before quote
+      if (quoteMatch.index > lastQuoteIndex) {
+        quoteParts.push(
+          <div key={`text-${baseKey}-${lastQuoteIndex}`} className="whitespace-pre-wrap">
+            {text.slice(lastQuoteIndex, quoteMatch.index)}
+          </div>
+        );
+      }
+
+      // Add formatted quote
+      const [, quote, author] = quoteMatch;
+      quoteParts.push(
+        <blockquote key={`quote-${baseKey}-${quoteMatch.index}`}>
+          <p>{quote}</p>
+          <footer>{author}</footer>
+        </blockquote>
+      );
+
+      lastQuoteIndex = quoteMatch.index + quoteMatch[0].length;
+    }
+
+    // Add remaining text
+    if (lastQuoteIndex < text.length) {
+      quoteParts.push(
+        <div key={`text-${baseKey}-${lastQuoteIndex}`} className="whitespace-pre-wrap">
+          {text.slice(lastQuoteIndex)}
         </div>
       );
     }
 
-    return parts;
+    return quoteParts.length > 0 ? (
+      quoteParts
+    ) : (
+      <div key={`text-${baseKey}`} className="whitespace-pre-wrap">
+        {text}
+      </div>
+    );
   };
 
   return (
@@ -80,7 +122,7 @@ export function ArticleContent() {
 
         {data.content.sections.map((section, index) => (
           <div key={index} className="space-y-4">
-            <h2 className="text-2xl font-bold text-green-500">{section.title}</h2>
+            <h2 className="text-2xl font-bold text-gray-200">{section.title}</h2>
 
             {section.image && (
               <Image
@@ -109,9 +151,9 @@ export function ArticleContent() {
           </div>
         ))}
 
-        <h2 className="text-2xl font-bold text-green-500">{t('article.references')}</h2>
+        <h2 className="text-2xl font-bold text-gray-200">{t('article.references')}</h2>
         <div className="bg-black/30 border border-green-900/50 rounded-lg p-6 space-y-4">
-          <h3 className="text-xl font-semibold text-green-500">{t('article.sources')}:</h3>
+          <h3 className="text-xl font-semibold text-gray-200">{t('article.sources')}:</h3>
           <ol className="list-decimal list-inside space-y-2">
             {data.content.references.map((ref, index) => (
               <li key={index}>
