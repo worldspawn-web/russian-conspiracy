@@ -7,6 +7,7 @@ import level1Data from '@/app/data/level-1.json';
 import level2Data from '@/app/data/level-2.json';
 import level3Data from '@/app/data/level-3.json';
 import { useParams } from 'next/navigation';
+import { CodeBlock } from '@/app/components/syntax-highlighter';
 
 // TODO:
 // Think about refactoring multiple imports and const defining
@@ -26,6 +27,41 @@ export function ArticleContent() {
   if (!data) {
     return <div className="text-green-500">Уровень не найден</div>;
   }
+
+  const renderContent = (content: string) => {
+    const codeBlockRegex = /```(\w+)\n([\s\S]*?)```/g;
+    const parts = [];
+    let lastIndex = 0;
+    let match;
+
+    while ((match = codeBlockRegex.exec(content)) !== null) {
+      // Add text before code block
+      if (match.index > lastIndex) {
+        parts.push(
+          <div key={lastIndex} className="whitespace-pre-wrap">
+            {content.slice(lastIndex, match.index)}
+          </div>
+        );
+      }
+
+      // Add code block
+      const [, language, code] = match;
+      parts.push(<CodeBlock key={match.index} language={language} value={code.trim()} />);
+
+      lastIndex = match.index + match[0].length;
+    }
+
+    // Add remaining text
+    if (lastIndex < content.length) {
+      parts.push(
+        <div key={lastIndex} className="whitespace-pre-wrap">
+          {content.slice(lastIndex)}
+        </div>
+      );
+    }
+
+    return parts;
+  };
 
   return (
     <article className="prose prose-invert max-w-none prose-pre:bg-black/50 prose-pre:border prose-pre:border-green-900/50">
@@ -55,7 +91,7 @@ export function ArticleContent() {
               />
             )}
 
-            <div className="whitespace-pre-wrap">{section.content}</div>
+            <div>{renderContent(section.content)}</div>
 
             {section.audio && (
               <div className="bg-black/30 border border-green-900/50 rounded-lg p-4 flex items-center gap-4">
