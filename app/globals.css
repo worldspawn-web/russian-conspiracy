@@ -104,6 +104,18 @@
   @apply text-green-400/90;
 }
 
+.prose ul li::before {
+  @apply content-['—'] absolute left-0 text-gray-200;
+}
+
+.prose ol {
+  @apply list-decimal;
+}
+
+.prose ol li::marker {
+  @apply text-gray-200;
+}
+
 .prose img {
   @apply rounded-lg my-8;
 }

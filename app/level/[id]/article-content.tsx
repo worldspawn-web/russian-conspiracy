@@ -40,7 +40,7 @@ export function ArticleContent() {
       // Add text before code block
       if (match.index > lastIndex) {
         const textBeforeCode = content.slice(lastIndex, match.index);
-        parts.push(renderTextWithQuotes(textBeforeCode, lastIndex));
+        parts.push(renderTextWithLists(textBeforeCode, lastIndex));
       }
 
       // Add code block
@@ -53,57 +53,96 @@ export function ArticleContent() {
     // Add remaining text
     if (lastIndex < content.length) {
       const remainingText = content.slice(lastIndex);
-      parts.push(renderTextWithQuotes(remainingText, lastIndex));
+      parts.push(renderTextWithLists(remainingText, lastIndex));
     }
 
     return parts;
   };
 
-  const renderTextWithQuotes = (text: string, baseKey: number) => {
-    // Handle blockquotes
-    const quoteRegex = />\s*"([^"]+)"\s*-\s*(.+)$/gm;
-    const quoteParts = [];
-    let lastQuoteIndex = 0;
-    let quoteMatch;
+  const renderTextWithLists = (text: string, baseKey: number) => {
+    const parts = [];
+    const lines = text.split('\n');
+    let currentList: { type: 'ul' | 'ol'; items: string[] } | null = null;
+    let currentText: string[] = [];
 
-    while ((quoteMatch = quoteRegex.exec(text)) !== null) {
-      // Add text before quote
-      if (quoteMatch.index > lastQuoteIndex) {
-        quoteParts.push(
-          <div key={`text-${baseKey}-${lastQuoteIndex}`} className="whitespace-pre-wrap">
-            {text.slice(lastQuoteIndex, quoteMatch.index)}
+    const flushText = () => {
+      if (currentText.length > 0) {
+        parts.push(
+          <div key={`text-${baseKey}-${parts.length}`} className="whitespace-pre-wrap">
+            {currentText.join('\n')}
           </div>
         );
+        currentText = [];
       }
+    };
 
-      // Add formatted quote
-      const [, quote, author] = quoteMatch;
-      quoteParts.push(
-        <blockquote key={`quote-${baseKey}-${quoteMatch.index}`}>
-          <p>{quote}</p>
-          <footer>{author}</footer>
-        </blockquote>
-      );
+    const flushList = () => {
+      if (currentList) {
+        const ListTag = currentList.type === 'ul' ? 'ul' : 'ol';
+        parts.push(
+          <ListTag
+            key={`list-${baseKey}-${parts.length}`}
+            className={`my-4 space-y-2 ${currentList.type === 'ul' ? 'list-none' : 'list-decimal'} pl-5`}
+          >
+            {currentList.items.map((item, i) => (
+              <li key={i} className={currentList.type === 'ul' ? 'relative pl-5' : 'pl-2'}>
+                {currentList.type === 'ul' && <span className="absolute left-0 text-green-500">-</span>}
+                {item.trim()}
+              </li>
+            ))}
+          </ListTag>
+        );
+        currentList = null;
+      }
+    };
 
-      lastQuoteIndex = quoteMatch.index + quoteMatch[0].length;
-    }
+    lines.forEach((line) => {
+      const trimmedLine = line.trim();
 
-    // Add remaining text
-    if (lastQuoteIndex < text.length) {
-      quoteParts.push(
-        <div key={`text-${baseKey}-${lastQuoteIndex}`} className="whitespace-pre-wrap">
-          {text.slice(lastQuoteIndex)}
-        </div>
-      );
-    }
+      // Check for unordered list item
+      if (trimmedLine.startsWith('- ')) {
+        flushText();
+        if (!currentList || currentList.type !== 'ul') {
+          flushList();
+          currentList = { type: 'ul', items: [] };
+        }
+        currentList.items.push(trimmedLine.slice(2));
+      }
+      // Check for ordered list item
+      else if (/^\d+\.\s/.test(trimmedLine)) {
+        flushText();
+        if (!currentList || currentList.type !== 'ol') {
+          flushList();
+          currentList = { type: 'ol', items: [] };
+        }
+        currentList.items.push(trimmedLine.replace(/^\d+\.\s/, ''));
+      }
+      // Handle blockquotes
+      else if (trimmedLine.startsWith('> ')) {
+        flushText();
+        flushList();
+        const quoteText = trimmedLine.slice(2);
+        const [quote, author] = quoteText.split(' - ').map((s) => s.trim());
+        parts.push(
+          <blockquote key={`quote-${baseKey}-${parts.length}`}>
+            <p>{quote.replace(/^"(.*)"$/, '$1')}</p>
+            {author && <footer>{author}</footer>}
+          </blockquote>
+        );
+      }
+      // Regular text
+      else {
+        if (currentList) {
+          flushList();
+        }
+        currentText.push(line);
+      }
+    });
 
-    return quoteParts.length > 0 ? (
-      quoteParts
-    ) : (
-      <div key={`text-${baseKey}`} className="whitespace-pre-wrap">
-        {text}
-      </div>
-    );
+    flushText();
+    flushList();
+
+    return parts;
   };
 
   return (
