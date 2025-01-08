@@ -18,5 +18,10 @@
     "next": "Next",
     "back": "Back",
     "retry": "Try Again"
+  },
+  "article": {
+    "readingTime": "Reading time: {{minutes}} minutes",
+    "references": "References",
+    "sources": "Sources"
   }
 }
