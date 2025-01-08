@@ -55,13 +55,16 @@
   @apply text-green-400/90;
 }
 
-.prose h1,
+.prose h1 {
+  @apply text-green-500 font-bold;
+}
+
 .prose h2,
 .prose h3,
 .prose h4,
 .prose h5,
 .prose h6 {
-  @apply text-green-500 font-bold;
+  @apply text-gray-300 font-bold;
 }
 
 .prose a {
