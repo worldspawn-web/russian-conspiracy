@@ -6,8 +6,8 @@ import { LevelInfo } from './level-info';
 import { LevelSquares } from './level-squares';
 
 export default function RoadmapPage() {
-  const [selectedLevel, setSelectedLevel] = useState(1);
   const [currentLevel, setCurrentLevel] = useState(3); // lvl 3 for testing
+  const [selectedLevel, setSelectedLevel] = useState(currentLevel);
   const totalLevels = 10;
 
   return (
