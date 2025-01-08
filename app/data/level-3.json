@@ -1,0 +1,59 @@
+{
+  "id": 3,
+  "title": "Теория заговора: Филадельфийский эксперимент",
+  "readingTime": 15,
+  "content": {
+    "intro": "В октябре 1943 года, согласно легенде, военно-морской флот США провел эксперимент по созданию невидимого корабля. Эсминец \"Элдридж\" якобы не только стал невидимым, но и совершил путешествие во времени.",
+    "sections": [
+      {
+        "title": "Официальная версия",
+        "content": "ВМС США отрицают проведение подобного эксперимента:\n\n- Корабль никогда не был в Филадельфии\n- Технология невидимости невозможна\n- Документы засекречены\n\nОднако свидетели утверждают обратное...",
+        "image": {
+          "url": "https://naked-science.ru/wp-content/uploads/2016/10/images_0_60e24_8b2b1828_orig.jpg",
+          "alt": "USS Eldridge",
+          "width": 800,
+          "height": 400
+        }
+      },
+      {
+        "title": "Технические детали",
+        "content": "Предполагаемая технология основывалась на работах Эйнштейна:\n\n```typescript\ninterface UnifiedField {\n  electromagnetic: number;\n  gravitational: number;\n  spacetime: {\n    distortion: number;\n    frequency: number;\n  }\n}\n\nconst theoreticalValues: UnifiedField = {\n  electromagnetic: 7.83,  // Резонанс Шумана\n  gravitational: 9.81,    // Ускорение свободного падения\n  spacetime: {\n    distortion: 4.77,     // Теоретический коэффициент\n    frequency: 432        // Гц\n  }\n};\n```\n\nЭти расчеты якобы позволили создать мощное электромагнитное поле вокруг корабля.",
+        "video": {
+          "url": "/sample-video.mp4",
+          "title": "Реконструкция эксперимента",
+          "duration": "3:45"
+        }
+      },
+      {
+        "title": "Свидетельства очевидцев",
+        "content": "Члены экипажа сообщали о странных эффектах:\n\n1. Зеленый туман вокруг корабля\n2. Потеря ориентации во времени\n3. Прохождение сквозь твердые объекты\n4. Телепортация между городами\n\n> \"Я видел, как люди проходили сквозь стены. Некоторые так и не вернулись в наше измерение\" - Аноним, член экипажа",
+        "image": {
+          "url": "/placeholder.svg",
+          "alt": "Предполагаемые очевидцы эксперимента",
+          "width": 600,
+          "height": 300
+        }
+      }
+    ],
+    "references": [
+      {
+        "author": "Berlitz, C., Moore, W.",
+        "year": 1979,
+        "title": "The Philadelphia Experiment: Project Invisibility",
+        "publisher": "Grosset & Dunlap"
+      },
+      {
+        "author": "Bielek, A.",
+        "year": 1990,
+        "title": "The Philadelphia Experiment and Other UFO Conspiracies",
+        "publisher": "Inner Light Publications"
+      },
+      {
+        "author": "Valentine, M.",
+        "year": 2016,
+        "title": "The Philadelphia Experiment Chronicles",
+        "publisher": "New Page Books"
+      }
+    ]
+  }
+}
