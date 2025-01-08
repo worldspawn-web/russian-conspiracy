@@ -1,11 +1,13 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
+import { CompletedOverlay, LockedOverlay } from './components/level-status-overlay';
 
 interface LevelSquareProps {
   level: number;
   isActive: boolean;
   isSelected: boolean;
   isLocked: boolean;
+  isCompleted: boolean;
   distanceFromCenter: number;
   onClick: () => void;
 }
@@ -15,21 +17,27 @@ const LevelSquare: React.FC<LevelSquareProps> = ({
   isActive,
   isSelected,
   isLocked,
+  isCompleted,
   distanceFromCenter,
   onClick,
 }) => {
   return (
-    <div
-      className={cn(
-        'w-16 h-16 flex items-center justify-center rounded-lg cursor-pointer transition-all duration-300',
-        isActive ? 'bg-green-500 text-black' : 'bg-gray-800 text-white',
-        isSelected ? 'ring-2 ring-green-300' : '',
-        isLocked ? 'opacity-50' : '',
-        distanceFromCenter === 0 ? 'opacity-100' : distanceFromCenter === 1 ? 'opacity-80' : 'opacity-60'
-      )}
-      onClick={onClick}
-    >
-      <span className="text-2xl font-bold">{level}</span>
+    <div className="relative">
+      <div
+        className={cn(
+          'w-16 h-16 flex items-center justify-center rounded-lg cursor-pointer transition-all duration-300',
+          isActive ? 'bg-green-500 text-black' : 'bg-gray-800 text-white',
+          isSelected ? 'ring-2 ring-green-300' : '',
+          isLocked ? 'opacity-50' : '',
+          distanceFromCenter === 0 ? 'opacity-100' : distanceFromCenter === 1 ? 'opacity-80' : 'opacity-60'
+        )}
+        onClick={onClick}
+      >
+        <span className="text-2xl font-bold relative z-10">{level}</span>
+
+        {isLocked && <LockedOverlay />}
+        {isCompleted && <CompletedOverlay isActive={isActive} />}
+      </div>
     </div>
   );
 };
@@ -63,6 +71,7 @@ export const LevelSquares: React.FC<LevelSquaresProps> = ({ levels, currentLevel
               isActive={level === currentLevel}
               isSelected={level === selectedLevel}
               isLocked={level > currentLevel}
+              isCompleted={level < currentLevel}
               distanceFromCenter={distanceFromCenter}
               onClick={() => onLevelSelect(level)}
             />
